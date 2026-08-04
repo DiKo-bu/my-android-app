@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Добро пожаловать в Komekcom.kz</string>
-</resources><string name="open_drawer">Открыть меню</string>
-<string name="close_drawer">Закрыть меню</string>
+    <string name="app_name">My WebView App</string>
+    <string name="open_drawer">Открыть меню</string>
+    <string name="close_drawer">Закрыть меню</string>
+</resources>
