@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Добро пожаловать в Komekcom.kz</string>
-</resources>
+</resources><string name="open_drawer">Открыть меню</string>
+<string name="close_drawer">Закрыть меню</string>
