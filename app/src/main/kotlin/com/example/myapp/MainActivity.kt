@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_button1 -> {
                 // Замени на свою логику
-                println("Кнопка 1 нажата")
+                webView.loadUrl("file:///android_asset/but1.html")
                 return true
             }
             R.id.action_button2 -> {
