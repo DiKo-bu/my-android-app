@@ -1,3 +1,4 @@
+cat > app/src/main/kotlin/com/example/myapp/MainActivity.kt <<'EOF'
 package com.example.myapp
 
 import android.os.Bundle
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         // Связываем гамбургер с DrawerLayout
         val toggle = androidx.appcompat.app.ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
-            R.string.open_drawer,  // можно добавить строки в strings.xml
+            R.string.open_drawer,
             R.string.close_drawer
         )
         drawerLayout.addDrawerListener(toggle)
@@ -42,10 +43,9 @@ class MainActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home -> {
-                    webView.loadUrl("file:///android_asset/index.html")
+                    webView.loadUrl("file:///android_asset/but1.html")
                 }
                 R.id.nav_settings -> {
-                    // Можно загрузить другую страницу или показать настройки
                     webView.loadUrl("about:blank")
                 }
                 R.id.nav_exit -> {
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         webView.loadUrl("file:///android_asset/index.html")
     }
 
-    // Для обработки нажатия на гамбургер через onOptionsItemSelected
+    // Обработка нажатия на гамбургер
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -73,11 +73,10 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    // Кнопки в тулбаре (оставляем как было)
+    // Кнопки в тулбаре
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
-
-    // Уже есть onOptionsItemSelected для кнопок тулбара, он выше
 }
+EOF
