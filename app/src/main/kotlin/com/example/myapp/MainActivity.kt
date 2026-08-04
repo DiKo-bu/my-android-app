@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var webView: WebView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -16,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val webView = findViewById<WebView>(R.id.webView)
+        webView = findViewById(R.id.webView)
         webView.webViewClient = WebViewClient()
         webView.settings.javaScriptEnabled = true
         webView.loadUrl("file:///android_asset/index.html")
@@ -30,13 +32,12 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_button1 -> {
-                // Замени на свою логику
+                // Пример: выполнить JS в WebView
                 webView.loadUrl("file:///android_asset/but1.html")
                 return true
             }
             R.id.action_button2 -> {
-                // Замени на свою логику
-                println("Кнопка 2 нажата")
+                webView.loadUrl("javascript:alert('Кнопка 2')")
                 return true
             }
         }
