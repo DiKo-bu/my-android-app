@@ -1,4 +1,3 @@
-cat > app/src/main/kotlin/com/example/myapp/MainActivity.kt <<'EOF'
 package com.example.myapp
 
 import android.os.Bundle
@@ -26,11 +25,9 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
         val navView = findViewById<NavigationView>(R.id.nav_view)
 
-        // Кнопка-гамбургер
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
 
-        // Связываем гамбургер с DrawerLayout
         val toggle = androidx.appcompat.app.ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
             R.string.open_drawer,
@@ -39,11 +36,10 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Обработка кликов по пунктам меню
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home -> {
-                    webView.loadUrl("file:///android_asset/but1.html")
+                    webView.loadUrl("file:///android_asset/index.html")
                 }
                 R.id.nav_settings -> {
                     webView.loadUrl("about:blank")
@@ -62,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         webView.loadUrl("file:///android_asset/index.html")
     }
 
-    // Обработка нажатия на гамбургер
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -73,10 +68,8 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    // Кнопки в тулбаре
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 }
-EOF
