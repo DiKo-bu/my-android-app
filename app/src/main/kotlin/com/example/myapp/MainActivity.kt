@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_settings -> webView.loadUrl("about:blank")
                 R.id.nav_exit -> finish()
             }
-            drawerLayout.closeDrawer(GravityCompat.START)
+            drawerLayout.closeDrawer(GravityCompat.END)
             true
         }
 
@@ -52,7 +52,18 @@ class MainActivity : AppCompatActivity() {
         webView.loadUrl("file:///android_asset/index.html")
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_settings -> {
+                webView.loadUrl("about:blank")
+                return true
+            }
+        }
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }
@@ -60,8 +71,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.closeDrawer(GravityCompat.END)
         } else {
             super.onBackPressed()
         }
