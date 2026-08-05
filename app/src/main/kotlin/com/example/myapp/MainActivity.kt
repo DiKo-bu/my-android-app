@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
         val navViewRight = findViewById<NavigationView>(R.id.nav_view_right)
         navViewRight.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_right_settings -> webView.loadUrl("about:blank")
-                R.id.nav_right_about -> webView.loadUrl("file:///android_asset/index.html")
+                R.id.nav_right_settings -> webView.loadUrl("file:///android_asset/contacts.html")
+                R.id.nav_right_about -> webView.loadUrl("file:///android_asset/about.html")
             }
             drawerLayout.closeDrawer(GravityCompat.END)
             true
