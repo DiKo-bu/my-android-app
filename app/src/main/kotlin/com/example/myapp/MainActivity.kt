@@ -1,152 +1,69 @@
 package com.example.myapp
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.viewinterop.AndroidView
-import kotlinx.coroutines.launch
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.ActionBarDrawerToggle
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+    private lateinit var webView: WebView
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var toggle: ActionBarDrawerToggle
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        setContent {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
 
-            val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-            val scope = rememberCoroutineScope()
+        drawerLayout = findViewById(R.id.drawer_layout)
+        toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar,
+            R.string.open_drawer,
+            R.string.close_drawer
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
 
-            var page by remember {
-                mutableStateOf("file:///android_asset/index.html")
+        val navView = findViewById<NavigationView>(R.id.nav_view)
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_home -> webView.loadUrl("file:///android_asset/index.html")
+                R.id.nav_settings -> webView.loadUrl("about:blank")
+                R.id.nav_exit -> finish()
             }
-
-            var webView: WebView? by remember {
-                mutableStateOf(null)
-            }
-
-            BackHandler(drawerState.isOpen) {
-                scope.launch {
-                    drawerState.close()
-                }
-            }
-
-            ModalNavigationDrawer(
-
-                drawerState = drawerState,
-
-                drawerContent = {
-
-                    ModalDrawerSheet {
-
-                        NavigationDrawerItem(
-                            label = { Text("Главная") },
-                            selected = false,
-                            onClick = {
-                                page = "file:///android_asset/index.html"
-                                scope.launch { drawerState.close() }
-                            }
-                        )
-
-                        NavigationDrawerItem(
-                            label = { Text("Настройки") },
-                            selected = false,
-                            onClick = {
-                                page = "about:blank"
-                                scope.launch { drawerState.close() }
-                            }
-                        )
-
-                        NavigationDrawerItem(
-                            label = { Text("Выход") },
-                            selected = false,
-                            onClick = {
-                                finish()
-                            }
-                        )
-                    }
-                }
-
-            ) {
-
-                Scaffold(
-
-                    topBar = {
-
-                        TopAppBar(
-
-                            title = {
-                                Text("MyWebViewApp")
-                            },
-
-                            navigationIcon = {
-
-                                IconButton(
-                                    onClick = {
-                                        scope.launch {
-                                            drawerState.open()
-                                        }
-                                    }
-                                ) {
-                                    Icon(Icons.Default.Menu, null)
-                                }
-
-                            }
-
-                        )
-
-                    }
-
-                ) { padding ->
-
-                    AndroidView(
-
-                        modifier = Modifier
-                            .fillMaxSize(),
-
-                        factory = { context ->
-
-                            WebView(context).apply {
-
-                                webView = this
-
-                                webViewClient = WebViewClient()
-
-                                settings.javaScriptEnabled = true
-
-                                loadUrl(page)
-
-                            }
-
-                        },
-
-                        update = {
-
-                            if (it.url != page) {
-                                it.loadUrl(page)
-                            }
-
-                        }
-
-                    )
-
-                }
-
-            }
-
+            drawerLayout.closeDrawer(GravityCompat.START)
+            true
         }
 
+        webView = findViewById(R.id.webView)
+        webView.webViewClient = WebViewClient()
+        webView.settings.javaScriptEnabled = true
+        webView.loadUrl("file:///android_asset/index.html")
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
 }
